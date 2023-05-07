@@ -1,0 +1,15 @@
+E:\GitHub\Console-app-to-depict-GPS-data-from-files\GpsDataRepresentation\bin\Debug\net6.0\GpsDataRepresentation.exe
+E:\GitHub\Console-app-to-depict-GPS-data-from-files\GpsDataRepresentation\bin\Debug\net6.0\GpsDataRepresentation.deps.json
+E:\GitHub\Console-app-to-depict-GPS-data-from-files\GpsDataRepresentation\bin\Debug\net6.0\GpsDataRepresentation.runtimeconfig.json
+E:\GitHub\Console-app-to-depict-GPS-data-from-files\GpsDataRepresentation\bin\Debug\net6.0\GpsDataRepresentation.dll
+E:\GitHub\Console-app-to-depict-GPS-data-from-files\GpsDataRepresentation\bin\Debug\net6.0\GpsDataRepresentation.pdb
+E:\GitHub\Console-app-to-depict-GPS-data-from-files\GpsDataRepresentation\obj\Debug\net6.0\GpsDataRepresentation.csproj.AssemblyReference.cache
+E:\GitHub\Console-app-to-depict-GPS-data-from-files\GpsDataRepresentation\obj\Debug\net6.0\GpsDataRepresentation.GeneratedMSBuildEditorConfig.editorconfig
+E:\GitHub\Console-app-to-depict-GPS-data-from-files\GpsDataRepresentation\obj\Debug\net6.0\GpsDataRepresentation.AssemblyInfoInputs.cache
+E:\GitHub\Console-app-to-depict-GPS-data-from-files\GpsDataRepresentation\obj\Debug\net6.0\GpsDataRepresentation.AssemblyInfo.cs
+E:\GitHub\Console-app-to-depict-GPS-data-from-files\GpsDataRepresentation\obj\Debug\net6.0\GpsDataRepresentation.csproj.CoreCompileInputs.cache
+E:\GitHub\Console-app-to-depict-GPS-data-from-files\GpsDataRepresentation\obj\Debug\net6.0\GpsDataRepresentation.dll
+E:\GitHub\Console-app-to-depict-GPS-data-from-files\GpsDataRepresentation\obj\Debug\net6.0\refint\GpsDataRepresentation.dll
+E:\GitHub\Console-app-to-depict-GPS-data-from-files\GpsDataRepresentation\obj\Debug\net6.0\GpsDataRepresentation.pdb
+E:\GitHub\Console-app-to-depict-GPS-data-from-files\GpsDataRepresentation\obj\Debug\net6.0\GpsDataRepresentation.genruntimeconfig.cache
+E:\GitHub\Console-app-to-depict-GPS-data-from-files\GpsDataRepresentation\obj\Debug\net6.0\ref\GpsDataRepresentation.dll
