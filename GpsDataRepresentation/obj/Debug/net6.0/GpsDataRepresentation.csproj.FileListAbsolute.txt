@@ -13,3 +13,5 @@ E:\GitHub\Console-app-to-depict-GPS-data-from-files\GpsDataRepresentation\obj\De
 E:\GitHub\Console-app-to-depict-GPS-data-from-files\GpsDataRepresentation\obj\Debug\net6.0\GpsDataRepresentation.pdb
 E:\GitHub\Console-app-to-depict-GPS-data-from-files\GpsDataRepresentation\obj\Debug\net6.0\GpsDataRepresentation.genruntimeconfig.cache
 E:\GitHub\Console-app-to-depict-GPS-data-from-files\GpsDataRepresentation\obj\Debug\net6.0\ref\GpsDataRepresentation.dll
+E:\GitHub\Console-app-to-depict-GPS-data-from-files\GpsDataRepresentation\bin\Debug\net6.0\GeolocationNetStandard.dll
+E:\GitHub\Console-app-to-depict-GPS-data-from-files\GpsDataRepresentation\obj\Debug\net6.0\GpsDataRepresentation.csproj.CopyComplete

@@ -88,11 +88,29 @@ namespace GpsDataRepresentation.GpsDataRepresentation.BL.Services
         {
             return JsonSerializer.Deserialize<GpsData[]>(File.ReadAllText(@"C:\Users\aruna\Desktop\C# užduotis/2019-07.json"));
         }
-        public GpsData[] ReadCsv()
+        public List<GpsData> ReadCsv()
         {
-            return JsonSerializer.Deserialize<GpsData[]>(File.ReadAllText(@"C:\Users\aruna\Desktop\C# užduotis/2019-07.json"));
+            var GpsData = new List<GpsData>();
+            using (var reader = new StreamReader(@"C:\Users\aruna\Desktop\C# užduotis/2019-08.csv"))
+            {
+                while (!reader.EndOfStream)
+                {
+                    var values = reader.ReadLine().Split(',');
+                    var GpsElement = new GpsData
+                    {
+                        Latitude = double.Parse(values[0]),
+                        Longitude = double.Parse(values[1]),
+                        GpsTime = DateTime.Parse(values[2]),
+                        Speed = int.Parse(values[3]),
+                        Angle = int.Parse(values[4]),
+                        Altitude = int.Parse(values[5]),
+                        Satellites = int.Parse(values[6]),
+                    };
+                    GpsData.Add(GpsElement);
+                }
+            }
+            return GpsData;
         }
-
         public List<int> SortOutSatelites(GpsData[] GpsData)
         {
             var SateliteList = new List<int>();
@@ -102,8 +120,7 @@ namespace GpsDataRepresentation.GpsDataRepresentation.BL.Services
             }
             return SateliteList;
         }
-
-        public List<int> SortOutSpeed(GpsData[] GpsData)
+        public List<int> SortOutSpeed(List<GpsData> GpsData)
         {
             var SateliteList = new List<int>();
             foreach (var elem in GpsData)
@@ -113,7 +130,6 @@ namespace GpsDataRepresentation.GpsDataRepresentation.BL.Services
             return SateliteList;
 
         }
-
-       
+        
     }
 }

@@ -10,10 +10,10 @@ namespace GpsDataRepresentation.GpsDataRepresentation.BL.Interfaces
     public interface IDataRepresentationService
     {
         GpsData[] ReadJSON();
-        GpsData[] ReadCsv();
+        List<GpsData> ReadCsv();
         void MakeSateliteHistogram(List<int> SateliteList);
         void MakeSpeedHistogram(List<int> SpeedList);
         List<int> SortOutSatelites(GpsData[] GpsData);
-        List<int> SortOutSpeed(GpsData[] GpsData);
+        List<int> SortOutSpeed(List<GpsData> GpsData);
     }
 }
