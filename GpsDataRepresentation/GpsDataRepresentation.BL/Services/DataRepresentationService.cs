@@ -48,31 +48,24 @@ namespace GpsDataRepresentation.GpsDataRepresentation.BL.Services
         public void MakeSateliteHistogram(List<int> SateliteList)
         {
             var SateliteReacurance = CountRecurrence(SateliteList);
-
-
             var maxSateliteCount = SateliteReacurance.Values.Max();
             var values = SateliteReacurance.Values.ToList();
+            var keys = SateliteReacurance.Keys.ToList();
 
-            for(var i = 0; i < values.Count;i++)
-            {
-                values[i] = values[i]/ 100 < 1 ? 1 : values[i] / 100;
-            }
-
-            for (int i = maxSateliteCount / 99; i > 0; i--)
+            for (int i = maxSateliteCount / 95; i > 0; i--)
             {
                 for (int j = 0; j < SateliteReacurance.Count; j+=1)
                 {
-                    Console.Write(values[j] >= i ? "███" : "   ");
+                    Console.Write(values[j]/100 >= i-1 ? "███" : "   ");
                 }
-
                 Console.WriteLine();
             }
-            var keys = SateliteReacurance.Keys.ToList();
 
-                foreach (var key in keys)
-                {
-                  Console.Write(key < 10 ? "0"+ key + " " : key + " ");
-                }
+            foreach (var key in keys)
+            {
+                Console.Write(key < 10 ? "0"+ key + " " : key + " ");
+            }
+            Console.WriteLine();
 
         }
         public void MakeSpeedHistogram(List<int> SpeedList)
