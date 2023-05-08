@@ -31,6 +31,20 @@ namespace GpsDataRepresentation.GpsDataRepresentation.BL.Services
             }
             return RecurrenceList;
         }
+        private SortedDictionary<int, int> CountRecurrenceOfSpeed(List<int> itemList)
+        {
+            SortedDictionary<int, int> RecurrenceList = new SortedDictionary<int, int>();
+
+           for(var i = 0; i < itemList.Max(); i += 10)
+            {
+                var count = itemList.Count(n => n > i && n < i + 10);
+                if (count > 0)
+                {
+                    RecurrenceList[i]= count;
+                }
+            }
+            return RecurrenceList;
+        }
         public void MakeSateliteHistogram(List<int> SateliteList)
         {
             var SateliteReacurance = CountRecurrence(SateliteList);
@@ -61,7 +75,27 @@ namespace GpsDataRepresentation.GpsDataRepresentation.BL.Services
                 }
 
         }
+        public void MakeSpeedHistogram(List<int> SpeedList)
+        {
+            var SpeedReacurance = CountRecurrenceOfSpeed(SpeedList);
+
+            var values = SpeedReacurance.Values.ToList();
+            var Keys = SpeedReacurance.Keys.ToList();
+            Console.WriteLine();
+            for (var i  = 0; i< values.Count; i++)
+            {
+
+                Console.Write($"{"[" + Keys[i] + " - " + (Keys[i] + 10) + "]" + " | ",15}");
+                Console.Write(new string('█', values[i] / 100 < 1 ? 1 : values[i] / 100));
+                Console.WriteLine(" | " + values[i]);
+
+            }
+        }
         public GpsData[] ReadJSON()
+        {
+            return JsonSerializer.Deserialize<GpsData[]>(File.ReadAllText(@"C:\Users\aruna\Desktop\C# užduotis/2019-07.json"));
+        }
+        public GpsData[] ReadCsv()
         {
             return JsonSerializer.Deserialize<GpsData[]>(File.ReadAllText(@"C:\Users\aruna\Desktop\C# užduotis/2019-07.json"));
         }
@@ -76,6 +110,16 @@ namespace GpsDataRepresentation.GpsDataRepresentation.BL.Services
             return SateliteList;
         }
 
+        public List<int> SortOutSpeed(GpsData[] GpsData)
+        {
+            var SateliteList = new List<int>();
+            foreach (var elem in GpsData)
+            {
+                SateliteList.Add(elem.Speed);
+            }
+            return SateliteList;
+
+        }
 
        
     }
