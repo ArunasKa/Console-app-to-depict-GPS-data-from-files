@@ -1,4 +1,5 @@
-﻿using GpsDataRepresentation.GpsDataRepresentation.BL.Interfaces;
+﻿using Geolocation;
+using GpsDataRepresentation.GpsDataRepresentation.BL.Interfaces;
 using GpsDataRepresentation.Models;
 using System;
 using System.Collections.Generic;
@@ -51,8 +52,8 @@ namespace GpsDataRepresentation.GpsDataRepresentation.BL.Services
             var maxSateliteCount = SateliteReacurance.Values.Max();
             var values = SateliteReacurance.Values.ToList();
             var keys = SateliteReacurance.Keys.ToList();
-
-            for (int i = maxSateliteCount / 95; i > 0; i--)
+            Console.WriteLine();
+            for (int i = maxSateliteCount / 100; i > 0; i--)
             {
                 for (int j = 0; j < SateliteReacurance.Count; j+=1)
                 {
@@ -84,9 +85,9 @@ namespace GpsDataRepresentation.GpsDataRepresentation.BL.Services
 
             }
         }
-        public GpsData[] ReadJSON()
+        public List<GpsData> ReadJSON()
         {
-            return JsonSerializer.Deserialize<GpsData[]>(File.ReadAllText(@"C:\Users\aruna\Desktop\C# užduotis/2019-07.json"));
+            return JsonSerializer.Deserialize<List<GpsData>>(File.ReadAllText(@"C:\Users\aruna\Desktop\C# užduotis/2019-07.json"));
         }
         public List<GpsData> ReadCsv()
         {
@@ -111,7 +112,7 @@ namespace GpsDataRepresentation.GpsDataRepresentation.BL.Services
             }
             return GpsData;
         }
-        public List<int> SortOutSatelites(GpsData[] GpsData)
+        public List<int> SortOutSatelites(List<GpsData> GpsData)
         {
             var SateliteList = new List<int>();
             foreach (var elem in GpsData)
@@ -130,6 +131,94 @@ namespace GpsDataRepresentation.GpsDataRepresentation.BL.Services
             return SateliteList;
 
         }
-        
+        public void GetRoadSection(List<GpsData> fileJson, List<GpsData> fileCsv)
+        {
+            var file = fileCsv.Concat(fileJson).ToList();
+            var TempStartPoint = new GpsData();
+            var TempEndPoint = new GpsData();
+            var startPoint = new GpsData();
+            var endPoint = new GpsData();
+            double distance = 0;
+            double TempDistance = 0;
+            double averageSpeed = file.Select(x=>x.Speed).Max();
+            List<int> tripSpeeds= new List<int>();
+
+            for(int i = 6; i < file.Count - 1; i++)
+            {
+                if (file[i].Satellites == 0)
+                {
+                    var TempTripTime = TempEndPoint.GpsTime.Subtract(TempStartPoint.GpsTime).TotalSeconds;
+                    var TempAverageSpeed = TempDistance / (TempTripTime / 3600);
+                    if (TempDistance > 100 && TempAverageSpeed <= averageSpeed)
+                    {
+                        averageSpeed = TempAverageSpeed;
+                        distance = TempDistance;
+                        startPoint = new GpsData
+                        {
+                            Latitude = TempStartPoint.Latitude,
+                            Longitude = TempStartPoint.Longitude,
+                            GpsTime = TempStartPoint.GpsTime,
+                            Speed = TempStartPoint.Speed,
+                            Angle = TempStartPoint.Angle,
+                            Altitude = TempStartPoint.Altitude,
+                            Satellites = TempStartPoint.Satellites,
+
+                        };
+                        endPoint = new GpsData
+                        {
+                            Latitude = TempEndPoint.Latitude,
+                            Longitude = TempEndPoint.Longitude,
+                            GpsTime = TempEndPoint.GpsTime,
+                            Speed = TempEndPoint.Speed,
+                            Angle = TempEndPoint.Angle,
+                            Altitude = TempEndPoint.Altitude,
+                            Satellites = TempEndPoint.Satellites,
+
+                        };
+                        
+                        tripSpeeds.Clear();
+                    }
+                    TempStartPoint = new GpsData
+                    {
+                        Latitude = file[i].Latitude,
+                        Longitude = file[i].Longitude,
+                        GpsTime = file[i].GpsTime,
+                        Speed = file[i].Speed,
+                        Angle = file[i].Angle,
+                        Altitude = file[i].Altitude,
+                        Satellites = file[i].Satellites,
+
+                    };
+                    TempDistance = 0;
+                }
+                else
+                {
+                    TempEndPoint = new GpsData
+                    {
+                        Latitude = file[i].Latitude,
+                        Longitude = file[i].Longitude,
+                        GpsTime = file[i].GpsTime,
+                        Speed = file[i].Speed,
+                        Angle = file[i].Angle,
+                        Altitude = file[i].Altitude,
+                        Satellites = file[i].Satellites,
+
+                    };
+                    TempDistance += GeoCalculator.GetDistance(file[i].Latitude, file[i].Longitude, file[i + 1].Latitude, file[i + 1].Longitude, 3)* 1.60934;
+                    tripSpeeds.Add(file[i].Speed);
+                }
+            }
+
+            var tripTime = endPoint.GpsTime.Subtract(startPoint.GpsTime).TotalSeconds;
+            averageSpeed = distance / (tripTime/3600);
+            Console.WriteLine();
+            Console.WriteLine($"Fastest road section of at least 100km was driven over {tripTime}s and was {String.Format("{0:0.00}", distance)}km long" );
+            Console.WriteLine($"Start position {startPoint.Latitude}; {startPoint.Longitude}");
+            Console.WriteLine($"Start gps time {startPoint.GpsTime}" );
+            Console.WriteLine($"End position {endPoint.Latitude};{endPoint.Longitude}" );
+            Console.WriteLine($"End gps time {endPoint.GpsTime}" );
+            Console.WriteLine($"Average speed: {String.Format("{0:0.00}", averageSpeed)}km /h" );
+        }
+
     }
 }

@@ -11,8 +11,11 @@ IDataRepresentationService dataRepresentationService = new DataRepresentationSer
 //JSON
 var fileJson = dataRepresentationService.ReadJSON();
 var SateliteList = dataRepresentationService.SortOutSatelites(fileJson);
-//dataRepresentationService.MakeSateliteHistogram(SateliteList);
+dataRepresentationService.MakeSateliteHistogram(SateliteList);
 //CSV
 var fileCsv = dataRepresentationService.ReadCsv();
 var SpeedList = dataRepresentationService.SortOutSpeed(fileCsv);
 dataRepresentationService.MakeSpeedHistogram(SpeedList);
+dataRepresentationService.GetRoadSection(fileJson, fileCsv);
+
+
