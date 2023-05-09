@@ -1,12 +1,7 @@
 ﻿using Geolocation;
 using GpsDataRepresentation.GpsDataRepresentation.BL.Interfaces;
 using GpsDataRepresentation.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace GpsDataRepresentation.GpsDataRepresentation.BL.Services
 {
@@ -55,9 +50,21 @@ namespace GpsDataRepresentation.GpsDataRepresentation.BL.Services
             Console.WriteLine();
             for (int i = maxSateliteCount / 100; i > 0; i--)
             {
+                
                 for (int j = 0; j < SateliteReacurance.Count; j+=1)
                 {
+                    if (i == maxSateliteCount / 100 && j == SateliteReacurance.Count-1)
+                    {
+                        Console.Write("    "+maxSateliteCount+"  hits");
+                    }
                     Console.Write(values[j]/100 >= i-1 ? "███" : "   ");
+                    if (i == 1 && j == SateliteReacurance.Count - 1)
+                    {
+                        Console.Write(" 0  hits");
+
+                    }
+
+
                 }
                 Console.WriteLine();
             }
