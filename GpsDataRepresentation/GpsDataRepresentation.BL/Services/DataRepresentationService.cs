@@ -150,9 +150,9 @@ namespace GpsDataRepresentation.GpsDataRepresentation.BL.Services
             double averageSpeed = file.Select(x=>x.Speed).Max();
             List<int> tripSpeeds= new List<int>();
 
-            for(int i = 6; i < file.Count - 1; i++)
+            for(int i = 0; i < file.Count - 1; i++)
             {
-                if (file[i].Satellites == 0)
+                if (file[i].Satellites == 0 && file[i + 1].Satellites != 0)
                 {
                     var TempTripTime = TempEndPoint.GpsTime.Subtract(TempStartPoint.GpsTime).TotalSeconds;
                     var TempAverageSpeed = TempDistance / (TempTripTime / 3600);
@@ -182,7 +182,7 @@ namespace GpsDataRepresentation.GpsDataRepresentation.BL.Services
                             Satellites = TempEndPoint.Satellites,
 
                         };
-                        
+
                         tripSpeeds.Clear();
                     }
                     TempStartPoint = new GpsData
@@ -198,7 +198,7 @@ namespace GpsDataRepresentation.GpsDataRepresentation.BL.Services
                     };
                     TempDistance = 0;
                 }
-                else
+                else if (file[i].Satellites != 0)
                 {
                     TempEndPoint = new GpsData
                     {

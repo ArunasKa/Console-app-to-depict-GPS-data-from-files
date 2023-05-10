@@ -1,10 +1,4 @@
-﻿
-
-
-
-
-
-using GpsDataRepresentation.GpsDataRepresentation.BL.Interfaces;
+﻿using GpsDataRepresentation.GpsDataRepresentation.BL.Interfaces;
 using GpsDataRepresentation.GpsDataRepresentation.BL.Services;
 
 IDataRepresentationService dataRepresentationService = new DataRepresentationService();
