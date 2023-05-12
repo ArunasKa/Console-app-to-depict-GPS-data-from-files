@@ -119,6 +119,29 @@ namespace GpsDataRepresentation.GpsDataRepresentation.BL.Services
             }
             return GpsData;
         }
+        public List<GpsData> ReadBin()
+        {
+            var gpsData = new List<GpsData>();
+            var list = BitConverter.ToString(File.ReadAllBytes(@"C:\Users\aruna\Desktop\C# užduotis/2019-09.bin")).Split('-').ToList();
+
+            for (int i = 0; i < list.Count - 23; i += 23)
+            {
+                var GpsElement = new GpsData
+                {
+                    Latitude = (double)Convert.ToInt32(list[i] + list[i + 1] + list[i + 2] + list[i + 3], 16) / 10000000,
+                    Longitude = (double)Convert.ToInt32(list[i + 4] + list[i + 5] + list[i + 6] + list[i + 7], 16) / 10000000,
+                    GpsTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(Convert.ToInt64(list[i + 8] + list[i + 9] + list[i + 10] + list[i + 11] + list[i + 12] + list[i + 13] + list[i + 14] + list[i + 15], 16)),
+                    Speed = Convert.ToInt16(list[i + 16] + list[i + 17], 16),
+                    Angle = Convert.ToInt16(list[i + 18] + list[i + 19], 16),
+                    Altitude = Convert.ToInt16(list[i + 20] + list[i + 21], 16),
+                    Satellites = Convert.ToInt16(list[i + 22], 16),
+                };
+                gpsData.Add(GpsElement);
+
+
+            }
+            return gpsData;
+        }
         public List<int> SortOutSatelites(List<GpsData> GpsData)
         {
             var SateliteList = new List<int>();
