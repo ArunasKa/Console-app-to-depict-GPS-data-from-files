@@ -24,4 +24,4 @@ dataRepresentationService.MakeSpeedHistogram(SpeedListBin);
 
 
 //Road Section
-dataRepresentationService.GetRoadSection(fileJson, fileCsv);
+dataRepresentationService.GetRoadSection(fileJson, fileCsv, fileBin);

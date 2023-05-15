@@ -161,27 +161,25 @@ namespace GpsDataRepresentation.GpsDataRepresentation.BL.Services
             return SateliteList;
 
         }
-        public void GetRoadSection(List<GpsData> fileJson, List<GpsData> fileCsv)
+        public void GetRoadSection(List<GpsData> fileJson, List<GpsData> fileCsv, List<GpsData> fileBin)
         {
-            var file = fileCsv.Concat(fileJson).ToList();
+            var file = fileJson.Concat(fileCsv).Concat(fileBin).ToList();
             var TempStartPoint = new GpsData();
             var TempEndPoint = new GpsData();
             var startPoint = new GpsData();
             var endPoint = new GpsData();
             double distance = 0;
             double TempDistance = 0;
-            double averageSpeed = file.Select(x=>x.Speed).Max();
-            List<int> tripSpeeds= new List<int>();
+            double tripTime = 10000;
 
             for(int i = 0; i < file.Count - 1; i++)
             {
                 if (file[i].Satellites == 0 && file[i + 1].Satellites != 0)
                 {
                     var TempTripTime = TempEndPoint.GpsTime.Subtract(TempStartPoint.GpsTime).TotalSeconds;
-                    var TempAverageSpeed = TempDistance / (TempTripTime / 3600);
-                    if (TempDistance > 100 && TempAverageSpeed <= averageSpeed)
+                    if (TempDistance > 100 && TempTripTime <= tripTime)
                     {
-                        averageSpeed = TempAverageSpeed;
+                        tripTime = TempTripTime;
                         distance = TempDistance;
                         startPoint = new GpsData
                         {
@@ -206,7 +204,6 @@ namespace GpsDataRepresentation.GpsDataRepresentation.BL.Services
 
                         };
 
-                        tripSpeeds.Clear();
                     }
                     TempStartPoint = new GpsData
                     {
@@ -234,13 +231,12 @@ namespace GpsDataRepresentation.GpsDataRepresentation.BL.Services
                         Satellites = file[i].Satellites,
 
                     };
-                    TempDistance += GeoCalculator.GetDistance(file[i].Latitude, file[i].Longitude, file[i + 1].Latitude, file[i + 1].Longitude, 3)* 1.60934;
-                    tripSpeeds.Add(file[i].Speed);
+                    TempDistance += GeoCalculator.GetDistance(file[i].Latitude, file[i].Longitude, file[i + 1].Latitude, file[i + 1].Longitude)* 1.60934;
                 }
             }
 
-            var tripTime = endPoint.GpsTime.Subtract(startPoint.GpsTime).TotalSeconds;
-            averageSpeed = distance / (tripTime/3600);
+            tripTime = endPoint.GpsTime.Subtract(startPoint.GpsTime).TotalSeconds;
+            var averageSpeed = distance / (tripTime / 3600);
             Console.WriteLine();
             Console.WriteLine($"Fastest road section of at least 100km was driven over {tripTime}s and was {String.Format("{0:0.00}", distance)}km long" );
             Console.WriteLine($"Start position {startPoint.Latitude}; {startPoint.Longitude}");
